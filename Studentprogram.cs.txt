@@ -61,7 +61,7 @@ namespace Assignment2
         }
         static void Main()
         {
-            StudentProgram st = new StudentProgram(204, "praveen", "btech", 8, "cse");
+            StudentProgram st = new StudentProgram(103, "Srikanth", "b.e", 6, "cse");
             st.DisplayData();
             Console.ReadLine();
         }
