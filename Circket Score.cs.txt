@@ -1,0 +1,64 @@
+Write a program to find the Sum and the Average points scored by the teams in the IPL. Create a Class called Cricket that 
+ has a function called Pointscalculation(int no_of_matches) that takes no.of matches as input and accepts that many scores
+ from the user. The function should then display the Average and Sum of the scores
+ _________________________________________________________________________________________________________________________
+ 
+using System;
+using System.Collections.Generic;
+
+
+namespace Assignment4
+{
+    class Cricket
+    {
+        public int sum;
+        public double average;
+        int[] score_array;
+
+        public void Pointscalculation(int no_of_matches)
+        {
+            score_array = new int[no_of_matches];
+            Console.WriteLine("Enter the score of match {0}: ", no_of_matches);
+            Console.WriteLine();
+            for(int i = 0; i < no_of_matches; i++)
+            {
+                Console.WriteLine("Enter the Score {0} Match : ", i + 1);
+                score_array[i] = int.Parse(Console.ReadLine());
+            }
+            for (int i = 0; i < score_array.Length; i++)
+            {
+                sum = sum + score_array[i];
+            }
+            Console.WriteLine("The Sum of Scores in all the Matches : {0} ", sum);
+            average = (double)sum / score_array.Length;
+            Console.WriteLine("The Average of Scores in all the Matches : {0} ", average);
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int NoOfMatches;
+            Console.WriteLine("Enter the number of Match Score to be entered.");
+            NoOfMatches = int.Parse(Console.ReadLine());
+            Cricket cricket = new Cricket();
+            cricket.Pointscalculation(NoOfMatches);
+        }
+    }
+}
+_______________________________________________________________________________________________________________________________
+
+Enter the number of Match Score to be entered.
+4
+Enter the score of match 4:
+
+Enter the Score 1 Match :
+100
+Enter the Score 2 Match :
+125
+Enter the Score 3 Match :
+120
+Enter the Score 4 Match :
+125
+The Sum of Scores in all the Matches : 470
+The Average of Scores in all the Matches :117
