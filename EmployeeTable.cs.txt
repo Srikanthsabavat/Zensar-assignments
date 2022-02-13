@@ -1,0 +1,60 @@
+--Display Table
+select * from EMP
+select * from DEPT
+
+--Retrieve a list of MANAGERS.
+select EMPNO,ENAME from EMP 
+where EMPNO in (select MGR from EMP)
+
+--Find out salary of both MILLER and SMITH. 
+select ENAME,SAL from EMP
+where ENAME = 'MILLER' or ENAME = 'SMITH'
+
+--Find out the names and salaries of all employees earning more than 1000 per month.
+select ENAME,SAL from EMP
+where SAL > 1000
+
+--Display the names and salaries of all employees except JAMES. 
+select ENAME,SAL from EMP
+where ENAME <> 'JAMES'
+
+--Find out the details of employees whose names begin with ‘S’.
+select * from EMP
+where ENAME like 'S%'
+
+--Find out the names of all employees that have ‘A’ anywhere in their name.
+select ENAME 'Employees that have "A" anywhere in their Name.' from EMP 
+where ENAME like '%A%'
+
+--Find out the names of all employees that have ‘L’ as their third character in their name. 
+select ENAME 'Employee thet have "L" as their Third Character.' from EMP
+where ENAME like '__L%'
+
+--Find out the names of the employees whose name begin with ‘A’ or ‘M’.
+select * from EMP
+where ENAME like 'A%' or ENAME like 'M%'
+
+--Compute yearly salary of SMITH.
+select ENAME,SAL,(SAL*12)'Annual Salary' from EMP
+where ENAME = 'SMITH'
+
+--Compute daily salary of JONES.
+select ENAME,SAL,(SAL/30)'Daily Salary' from EMP
+where ENAME = 'Jones'
+
+--Calculate the total monthly salary of all employees.
+select sum(SAL)'Total Monthly Salary of All Employee' from EMP
+
+--Print the average annual salary. 
+select  avg(SAL*12) 'Average Annual Salary' from EMP
+
+--Select the name, job, salary, department number of all employees except SALESMAN from department number 30.
+select ENAME,JOB,SAL,DEPTNO from EMP
+where JOB <> 'SALESMAN' and DEPTNO = 30
+
+--List unique departments of the EMP table.
+select distinct(DEPTNO) 'Unique Department ID in Employee Table.' from EMP
+
+--List the name and salary of employees who earn more than 1500 and are in department 10 or 30. Label the columns Employee and Monthly Salary respectively.
+select ENAME 'Employee',SAL 'Monthly Salary',DEPTNO from EMP
+where SAL > 1500 and (DEPTNO = 10 or DEPTNO = 30)
