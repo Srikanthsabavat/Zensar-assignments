@@ -1,0 +1,31 @@
+2. Write a T-SQL Program to Display complete result of a given student. (Note: Consider 10th standard result sheet and Student table structure as (sno,sname,maths,phy,comp)
+
+
+create Database ProgramDB
+
+use ProgramDB
+
+create table Student_Info
+(Sno int primary key,
+SName varchar(20) unique,
+Maths_Marks float check (Maths_Marks<100),
+Phy_Marks float check (Phy_Marks<100),
+Comp_Marks float check (Comp_Marks<100),)
+
+insert into Student_Info
+values(1,'Srikanth',33.0,56.56,557),
+(2,'prakash',89.00,96.77,78.78),
+(3,'laxman',70.0,67.56,85),
+(4,'Ramaya',26.0,47.56,75),
+(5,'venkata',96.0,57.56,95)
+
+select * from Student_Info
+
+create or alter procedure Student_Result @Studid int
+as
+begin
+ select *,(((Maths_Marks + Phy_Marks + Comp_Marks)/300)*100) as 'Result in Percentage' from Student_Info
+ where Sno = @Studid
+end
+
+exec Student_Result 1

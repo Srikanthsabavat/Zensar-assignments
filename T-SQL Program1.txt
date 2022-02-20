@@ -1,0 +1,27 @@
+1.	Write a T-SQL Program to generate complete payslip of a given employee with respect to the following condition
+a)	HRA  as 10% Of sal
+b)	DA as  20% of sal
+c)	PF as 8% of sal
+d)	IT as 5% of sal
+e)	Deductions as sum of PF and IT
+f)	Gross Salary as sum of SAL,HRA,DA and Deductions
+g)	Net salary as  Gross salary- Deduction
+
+use zensardb
+
+select * from employee
+create or alter procedure Employee_PaySlip @Eid int
+as
+begin
+ select EmpName,EmpId,EmpSalary,
+ EmpSalary/100*10 as HRA,
+ EmpSalary/100*20 as DA,
+ EmpSalary/100*8 as PF,
+ EmpSalary/100*5 as IT,
+ ((EmpSalary/100*8)+(EmpSalary/100*5)) as Deductions,
+ (EmpSalary + (EmpSalary/100*10) + (EmpSalary/100*20) + (((EmpSalary/100*8)+(EmpSalary/100*5)))) as 'Gross Salary',
+ (EmpSalary + (EmpSalary/100*10) + (EmpSalary/100*20) + ((EmpSalary/100*8)+(EmpSalary/100*5)) - ((EmpSalary/100*8)+(EmpSalary/100*5))) as 'Net Salary'from Employee
+ where EmpId = @Eid
+end
+
+exec Employee_PaySlip 101

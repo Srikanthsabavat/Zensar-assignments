@@ -1,0 +1,16 @@
+Write a T-SQL Program to find the factorial of a given number.
+
+
+create or alter procedure Factorial_Number @Num1 int
+as
+begin
+declare @Factorial int = 1, @i int = 1
+while(@i<=@Num1)
+  begin
+    set @Factorial = @Factorial * @i
+	set @i += 1
+  end
+select @Factorial as 'Factorial of the Given Number'
+end
+
+exec Factorial_Number 3 
