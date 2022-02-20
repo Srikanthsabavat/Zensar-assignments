@@ -1,0 +1,55 @@
+Create a user defined function calculate Bonus for all employees of a  given job using following conditions
+a.	       For Deptno10 employees 15% of sal as bonus.
+b.	       For Deptno20 employees  20% of sal as bonus
+c.	      For Others employees 5%of sal as bonus
+*/
+
+use Assignment1DB
+
+create or alter function Calculate_Bonus()
+returns table
+as 
+return (select *, Bonus=case 
+when DEPTNO=10 then SAL*0.15
+when DEPTNO=20 then SAL*0.2									  
+else SAL*0.05 									 
+end 									 
+from EMP)
+
+select * from Calculate_Bonus()
+
+/*
+Create a trigger to restrict data manipulation on EMP table during General holidays. Display the error message like “Due to Independence day you cannot manipulate data”
+Note: Create holiday table as (holiday_date,Holiday_name) store at least 4 holiday details
+
+
+create table General_Holiday
+(Holiday_Date varchar(30),
+Holiday_Name varchar(40) primary key)
+
+select * from General_Holiday
+
+insert into General_Holiday
+values('18-mar','Holi'),
+('2-Apr','Ugadi'),
+('10-April','Babu Jagjivan Ram Jayanti'),
+('14-April','Ambedkar Jayanti'),
+('2-October','Ghandhi Jayanti'),
+('10-Apr','Ram Navami')
+
+create or alter trigger trgRestrict_Data_Manipulation
+on General_Holiday
+instead of delete,insert,update
+as
+begin
+  raiserror('Due to Public Holiday you cannot Manipulate Data',16,1)
+end
+
+insert into General_Holiday
+values('2-October','Ghandhi Jayanti'),
+
+update General_Holiday set Holiday_Date = '4-jan' where Holiday_Date = '5-Sep'
+
+delete from General_Holiday where Holiday_Date = '15-Aug'
+
+select * from General_Holiday
