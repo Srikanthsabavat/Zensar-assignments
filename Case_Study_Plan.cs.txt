@@ -1,0 +1,834 @@
+
+ Create Student class (id, name, dateofbirth)
+  - Cover constructors, getters and setters
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Case_Study
+{
+    class Student
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string DateOfBirth { get; set; }
+        public Student()
+        {
+
+        }
+        public Student(int Id, string Name, string DateOfBirth)
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.DateOfBirth = DateOfBirth;
+        }
+    }
+}
+
+===================================================================================Info====================================================================================
+
+
+- Create class Info
+  - Write a method called as:
+	public void display(Student student) {
+		//Code here to display the details of given student
+	}
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Case_Study
+{
+    class Info
+    {
+
+
+        public void display(Student s1)
+        {
+
+            Console.WriteLine("Student Details:");
+            Console.WriteLine("Student ID:" + s1.Id);
+            Console.WriteLine("Student Name:" + s1.Name);
+            Console.WriteLine("Student DOB:" + s1.DateOfBirth);
+        }
+
+        public void display(Course c1)
+        {
+            Console.WriteLine("Course Details:");
+            Console.WriteLine("Course ID:" + c1.CID);
+            Console.WriteLine("Course Name:" + c1.CName);
+            Console.WriteLine("Course Duration:" + c1.Duration);
+            Console.WriteLine("Course Fee:" + c1.Fees);
+        }
+
+        public void display()
+        {
+
+
+            List<Course> CourseList = new List<Course>()
+            {
+                new Course(1,"c", "1Month", 1000),
+                new Course(2,"Python", "1Months", 2000),
+                new Course(3,"Java", "3months", 9000),
+                new Course(4,"Database", "2months", 4000),
+                new Course(5,"dot net", "3months", 9000),
+            };
+        }
+    }
+}
+    
+
+===============================================================================App========================================================================================
+
+
+
+ Create App class with main method.
+
+
+
+using Case_Study;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Case_	Study
+{
+    class App
+    {
+        public static void Scenario1()
+        {
+            //creating student class object
+            Info info = new Info();
+            Student student = new Student(001, "Ram", "2-4-1999");
+            Student student1 = new Student(002, "Obito", "2-6-1998");
+            Student student2 = new Student(003, "Itachi", "5-7-1999");
+            info.display(student);
+            info.display(student1);
+            info.display(student2);
+        }
+        public static void Scenario2()
+        {
+            //taking an array call the student class and display in display method
+            Info info = new Info();
+            Student[] std = new Student[3];
+            std[0] = new Student(101, "Sampath", "4-6-1998");
+            std[1] = new Student(102, "srikanth", "6-8-1999");
+            std[2] = new Student(103, "Venkat", "5-8-1998");
+            for (int i = 0; i < std.Length; i++)
+            {
+                info.display(std[i]);
+                Console.WriteLine();
+            }
+            Console.ReadLine();
+        }
+        public static void Scenario3()
+        {
+            //creating object and array
+            Student[] std = new Student[2];
+
+            for (int i = 0; i < std.Length; i++)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Enter the Student ID:");
+                int Id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter the Student Name:");
+                string Name = Console.ReadLine();
+                Console.WriteLine("Enter the Student DateOfBirth:");
+                string DateOfBirth = Console.ReadLine();
+                //assinging student object array calling inn info class
+                Student s1 = new Student(Id, Name, DateOfBirth);
+                std[i] = s1;
+            }
+            foreach (var r in std)
+            {
+                Console.WriteLine(r.Id);
+                Console.WriteLine(r.Name);
+                Console.WriteLine(r.DateOfBirth);
+            }
+        }
+        public static void CScenario1()
+        {
+            Console.WriteLine("--------------Course:Scenario1---------------");
+            Info info = new Info();
+            Course crse = new Course(1, "PYTHON", "1 Month", 4000);
+            Course crse1 = new Course(2, "JAVA", "1 Month", 3000);
+            Course crse2 = new Course(3, ".NET FULL STACK", "3 Months", 10000);
+            info.display(crse);
+            Console.WriteLine();
+            info.display(crse1);
+            Console.WriteLine();
+            info.display(crse2);
+        }
+        public static void CScenario2()
+        {
+            Console.WriteLine("------------Course:Scenario2-----------------");
+            Info info = new Info();
+            Course[] cse = new Course[3];
+            cse[0] = new Course(4, "SAP", "1 Months", 3000);
+            cse[1] = new Course(5, "MYSQL", "1 Months", 4000);
+            cse[2] = new Course(6, "CLanguage", "2 Months", 7000);
+            for (int i = 0; i < cse.Length; i++)
+            {
+                info.display(cse[i]);
+                Console.WriteLine();
+            }
+        }
+        public static void CScenario3()
+        {
+            Console.WriteLine("------------Course:Scenario3-----------------");
+            Course[] cse = new Course[3];
+            for (int i = 0; i < cse.Length; i++)
+            {
+                Console.WriteLine("Enter Course ID:");
+                int Id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter Course Name:");
+                string Name = Console.ReadLine();
+                Console.WriteLine("Enter Course Duration:");
+                string Duration = Console.ReadLine();
+                Console.WriteLine("Enter Course Fee:");
+                int fee = int.Parse(Console.ReadLine());
+                Course c1 = new Course(Id, Name, Duration, fee);
+                cse[i] = c1;
+            }
+            foreach (var r in cse)
+            {
+                Console.WriteLine("\nCourse ID:{0}\nCourse Name:{1}\nCourse Duration:{2}\nCourse Fee:{3}\n", r.CID, r.CName, r.Duration, r.Fees);
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            AppEngine ae = new AppEngine();
+            Institute_Details ID = new Institute_Details();
+            ID.showFirstScreen();
+     
+
+           
+            
+            Console.Read();
+        }
+    }
+}
+
+
+
+============================================================================Enroll===========================================================================================
+
+
+
+- Create Enroll class with the following structure:
+   - public class Enroll {
+	private Student student;
+	private Course course;
+	private LocalDate enrollmentDate;
+
+	//constructors & getters/setters
+     }
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Case_Study
+{
+    class Enroll
+    {
+        private Student student;
+        private Course course;
+        private DateTime enrollmentDate;
+
+        //public List<Course> CourseList = new List<Course>();
+        //public List<Student> StudentList = new List<Student>();
+        //public List<Enroll> EnrollList = new List<Enroll>();
+
+        public Enroll(Student student, Course course, DateTime enrollmentDate)
+        {
+            this.student = student;
+            this.course = course;
+            this.enrollmentDate = enrollmentDate;
+        }
+    }
+}
+
+===========================================================================AppEngine========================================================================================
+
+
+
+create AppEngine class which will contain the following methods:
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Data;
+
+
+namespace Case_Study
+{
+   
+
+    class AppEngine
+    {
+        
+        public static SqlCommand cmd1;
+        public static SqlCommand cmd2;
+        public static SqlCommand cmd3;
+        public static SqlCommand cmd4;
+        public static SqlCommand cmd5;
+        public static SqlCommand cmd6;
+        public static SqlCommand cmd7;
+        public static SqlCommand cmd8;
+        public static SqlCommand cmd9;
+        public static SqlCommand cmd10;
+        public static SqlCommand cmd11;
+        public static SqlDataReader dr;
+        public static SqlConnection con;
+        
+
+        static SqlConnection getConnection()
+        {
+            con = new SqlConnection("Data Source=DESKTOP-A9R1Q7C;Initial Catalog=casestudy;User id=DESKTOP-A9R1Q7C\\VENKAT KANNEGANTI;Password=2701;Integrated Security=True;MultipleActiveResultSets=True");
+            con.Open();
+            return con;
+        }
+
+
+        public void showStudentScreen()
+        {
+            try
+            {
+                con = getConnection();
+                Console.WriteLine("show the details of the student");
+                Console.WriteLine("enter student sid");
+                int sid = Convert.ToInt32(Console.ReadLine());
+                cmd1 = new SqlCommand("select * from Student where stdid = @stdid", con);
+                cmd1.Connection = con;
+                cmd1.Parameters.AddWithValue("@stdid", sid);
+
+                dr = cmd1.ExecuteReader();
+                while (dr.Read())
+                {
+                    Console.WriteLine("Student Details : ");
+                    Console.WriteLine("--------------------------");
+                    Console.WriteLine("Student Id : " + " " + dr[0]);
+                    Console.WriteLine("Student Name :" + " " + dr[1]);
+                    Console.WriteLine("Student DOB :" + " " + dr[2]);
+                }
+            }
+            catch (SqlException se)
+            {
+                Console.WriteLine("error occured", se);
+            }
+        }
+
+        public void studentregistration()
+        {
+            int n;
+            Console.WriteLine("enter no of student details u want to insert");
+            n = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                con = getConnection();
+                Console.WriteLine("Enter student details");
+                Console.WriteLine("Enter id");
+                int Id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter Name");
+                string Name = Console.ReadLine();
+                Console.WriteLine("Enter DOB:");
+                string DateOfBirth = Console.ReadLine();
+                cmd2 = new SqlCommand("insert into Student values (@stdid,@stdname,@sdob)", con);
+                cmd2.Parameters.AddWithValue("@stdid", Id);
+                cmd2.Parameters.AddWithValue("@stdname", Name);
+                cmd2.Parameters.AddWithValue("@sdob", DateOfBirth);
+                int res1 = cmd2.ExecuteNonQuery();
+                if (res1 > 0)
+                {
+                    Console.WriteLine("Student details inserted Sucessfully");
+                }
+                else
+                    Console.WriteLine("please enter valid student details");
+            }
+        }
+
+        public void Available_Courses()
+        {
+            
+            con = getConnection();
+            cmd3 = new SqlCommand("Select * from Course", con);
+            int res2 = cmd3.ExecuteNonQuery();
+            Console.WriteLine("Courses Available In the Institution are................!");
+            dr = cmd3.ExecuteReader();
+            while (dr.Read())
+            {
+                Console.WriteLine("Course Details : ");
+                Console.WriteLine("--------------------------");
+                Console.WriteLine("Course Id : " + " " + dr[0]);
+                Console.WriteLine("Course Name :" + " " + dr[1]);
+                Console.WriteLine("Course Duration :" + " " + dr[2]);
+                Console.WriteLine("Course Fees :" + " " + dr[3]);
+            }
+        }
+
+        public void Show_all_registered_Students()
+        {
+            
+            con = getConnection();
+            cmd4 = new SqlCommand("Select * from Student", con);
+            int res3 = cmd4.ExecuteNonQuery();
+            dr = cmd4.ExecuteReader();
+            while (dr.Read())
+            {
+                Console.WriteLine("Student Details : ");
+                Console.WriteLine("--------------------------");
+                Console.WriteLine("Student Id : " + " " + dr[0]);
+                Console.WriteLine("Student Name :" + " " + dr[1]);
+                Console.WriteLine("Student DOB :" + " " + dr[2]);
+                Console.WriteLine();
+            }
+        }
+
+        public void introducingnewCourse()
+        {
+            con = getConnection();
+            
+           
+            
+
+            Console.WriteLine("Enter Course Id");
+            int CID = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter Course Name");
+            string name = Console.ReadLine();
+            Console.WriteLine("Enter Course duration");
+            string dur = Console.ReadLine();
+            Console.WriteLine("Enter Course fee");
+            int fees = Convert.ToInt32(Console.ReadLine());
+           
+            cmd5 = new SqlCommand("insert into Course values(@cid,@Namee,@dur,@cfee)", con);
+            cmd5.Parameters.AddWithValue("@cid", CID);
+            cmd5.Parameters.AddWithValue("@Namee", name);
+            cmd5.Parameters.AddWithValue("@dur", dur);
+            cmd5.Parameters.AddWithValue("@cfee", fees);
+            
+            
+            int res4 = cmd5.ExecuteNonQuery();
+            if (res4 > 0)
+            {
+                Console.WriteLine("Course added Sucessfully");
+            }
+            else
+                Console.WriteLine("Please enter valid details");
+        }
+
+
+        public void UpdateStudentdetails()
+        {
+            con = getConnection();
+            
+            
+            Console.WriteLine("enter student id");
+            int SId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter student Name you need to update: ");
+            string stName = Console.ReadLine();
+            Console.WriteLine("Enter student Dob you need to change: ");
+            string dob = Console.ReadLine();
+
+            cmd6 = new SqlCommand("update student set stdname  = @stdname,sdob = @sdob where stdid = @stdid", con);
+            
+            cmd6.Parameters.AddWithValue("@stdname", stName);
+            cmd6.Parameters.AddWithValue("@sdob", dob);
+            cmd6.Parameters.AddWithValue("@stdid", SId);
+
+            int res5 = cmd6.ExecuteNonQuery();
+            if (res5 > 0)
+            {
+                Console.WriteLine("student data updated Sucessfully");
+            }
+            else
+            {
+                Console.WriteLine("please enter valid data");
+            }
+        }
+
+        public void updatecourseDetails()
+        {
+            con = getConnection();
+            
+            Console.WriteLine("enter course id");
+            int CId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("enter Course duration u need to update");
+            string Cdur = Console.ReadLine();
+            Console.WriteLine("Enter Course fee u need to update");
+            int Cfee = Convert.ToInt32(Console.ReadLine());
+
+            cmd7 = new SqlCommand("update Course set dur  = @dur, cfee = @cfee where  cid=@Cid", con);
+
+
+            cmd7.Parameters.AddWithValue("@dur", Cdur);
+            cmd7.Parameters.AddWithValue("@cfee", Cfee);
+            cmd7.Parameters.AddWithValue("@Cid", CId);
+
+            int res6 = cmd7.ExecuteNonQuery();
+            if (res6 > 0)
+            {
+                Console.WriteLine("course updated Sucessfully");
+            }
+            else
+            {
+                Console.WriteLine("please enter valid data");
+            }
+        }
+
+        public void DeleteStudentdetails()
+        {
+            con = getConnection();
+            
+            Console.WriteLine("enter student id");
+            int SId = Convert.ToInt32(Console.ReadLine());
+            
+
+            cmd8 = new SqlCommand("delete student  where stdid = @stdid", con);
+            cmd8.Parameters.AddWithValue("@stdid", SId);
+            
+
+            int res7 = cmd8.ExecuteNonQuery();
+            if (res7 > 0)
+            {
+                Console.WriteLine("Row Deleted Sucessfully");
+            }
+            else
+            {
+                Console.WriteLine("please enter valid data");
+            }
+        }
+
+        public void DeleteCoursedetails()
+        {
+            try
+            {
+
+
+                con = getConnection();
+                
+                Console.WriteLine("enter course id");
+                int CId = Convert.ToInt32(Console.ReadLine());
+               
+
+                cmd9 = new SqlCommand("delete Course  where cid = @cid", con);
+                cmd9.Parameters.AddWithValue("@cid", CId);
+                
+
+                int res8 = cmd9.ExecuteNonQuery();
+                if (res8 > 0)
+                {
+                    Console.WriteLine("Row Deleted Sucessfully");
+                }
+                else
+                {
+                    Console.WriteLine("please enter valid data");
+                }
+            }
+            catch (SqlException se)
+            {
+                Console.WriteLine("u cannot delete particular course because student is enrooled to that course", se);
+            }
+        }
+
+        public void Retrieve_Particular_Course()
+        {
+            try
+            {
+                
+                con = getConnection();
+                int CId;
+                Console.WriteLine("Enter Course Id");
+                CId = Convert.ToInt32(Console.ReadLine());
+                cmd10 = new SqlCommand("select * from Course where cid=@cid", con);
+                cmd10.Parameters.AddWithValue("@cid", CId);
+                dr = cmd10.ExecuteReader();
+                while (dr.Read())
+                {
+                    Console.WriteLine("Particular Course Details : ");
+                    Console.WriteLine("--------------------------");
+                    Console.WriteLine("Course Id : " + " " + dr[0]);
+                    Console.WriteLine("Course Name :" + " " + dr[1]);
+                    Console.WriteLine("Course Duration :" + " " + dr[2]);
+                    Console.WriteLine("Course Fees :" + " " + dr[3]);
+                    Console.WriteLine();
+                }
+            }
+            catch (SqlException se)
+            {
+                Console.WriteLine("Course Doesn't Exist...........!", se);
+            }
+
+
+        }
+        public void enrolling_Course()
+        {
+            con = getConnection();
+            int SId, CID;
+            DateTime Enroll_Date;
+            Console.WriteLine("Enter Student Id");
+            SId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter Course Id");
+            CID = Convert.ToInt32(Console.ReadLine());
+            Enroll_Date = DateTime.UtcNow;
+            cmd11 = new SqlCommand("insert into Enroll values(@Cid,@stdid,@enrolment)", con);
+            cmd11.Parameters.AddWithValue("@Cid", CID);
+            cmd11.Parameters.AddWithValue("@stdid", SId);
+            cmd11.Parameters.AddWithValue("@enrolment", Enroll_Date);
+            int res9 = cmd11.ExecuteNonQuery();
+            if (res9 > 0)
+            {
+                Console.WriteLine("Student enrolled to the Course Sucessfully");
+            }
+            else
+                Console.WriteLine("Please enter valid details");
+        }
+
+    }
+
+
+}
+
+
+
+===============================================================================UserInterface===================================================================================
+
+
+Create an abstract class/interface (UserInterface) with the following methods:
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Case_Study
+{
+    abstract class UserInterface
+    {
+            public abstract void showFirstScreen();
+            public abstract void showStudentScreen();
+            public abstract void showAdminScreen();
+            public abstract void showAllStudentsScreen();
+            public abstract void showStudentRegistrationScreen();
+            public abstract void introduceNewCourseScreen();
+            public abstract void showAllCoursesScreen();
+    }
+        class Institute_Details : UserInterface
+        {
+            string r;
+            public override void showFirstScreen()
+            {
+            do
+            {
+                Console.WriteLine("Welcome to SMS(Student Management System)");
+                Console.WriteLine("Tell us who you are : \n1. Student\n2. Admin\n");
+                Console.WriteLine("Enter your choice ( 1 or 2 ) : ");
+                int op = Convert.ToInt32(Console.ReadLine());
+                switch (op)
+                {
+                    case 1:
+                        showStudentScreen();
+                        break;
+                    case 2:
+                        showAdminScreen();
+                        break;
+                   
+                }
+                   Console.WriteLine("Do you want to continue in Main screen YES/NO:");
+                    r = Console.ReadLine();
+            } 
+            while ((r == "YES") || (r == "yes"));
+        }
+        public override void showStudentScreen()
+        {
+            do
+            {
+                AppEngine ae = new AppEngine();
+                Console.WriteLine("Select: \n1.Check your Details(Existing User)\n2.Registration(New User)\n3.Search Available Courses\n4.Enroll to Course in List");
+                int op = Convert.ToInt32(Console.ReadLine());
+                switch (op)
+                {
+                    case 1:
+                        // Checks whether new registrartion or already existing user
+                        ae.showStudentScreen();
+                        Console.WriteLine("Action Completed you may Exit....!");
+                        break;
+                    case 2://New registration
+                        this.showStudentRegistrationScreen();
+                        Console.WriteLine("Action Completed you may Exit....!");
+                        break;
+                
+                    case 3:
+                        //Showcase all available courses
+                        Console.WriteLine("--------------------List of Courses------------------------");
+                        ae.Available_Courses();
+                        Console.WriteLine("Action Completed you may Exit....!");
+                        break;
+                    case 4:
+                        //Student enrolling to particular course
+                        ae.enrolling_Course();
+                        Console.WriteLine("You have successfully enrolled you may Exit the Screen now");
+                        break;
+                    default:
+                        Console.WriteLine("Enter valid Option....!");
+                        break;
+                }
+                    Console.WriteLine("Do you want to continue in student screen YES/NO:");
+                    r = Console.ReadLine();
+
+            }
+            while ((r == "YES") || (r == "yes"));
+        }
+        public override void showAdminScreen()
+      
+          do
+          {
+              AppEngine aE = new AppEngine();
+              Console.WriteLine("Select: \n1.Introduce New Course\n2.Courses Available\n3.Update Course Details\n4.Retrieve Particular Course in List\n5.Deleting Existing Student\n6.Delete Course\n7.Update Student Details\n8.all student details");
+              int op = Convert.ToInt32(Console.ReadLine());
+              switch (op)
+              {
+                case 1:
+                    //If any new course want to add for Organization
+                    this.introduceNewCourseScreen();
+                    Console.WriteLine("Action Completed you may Exit....!");
+                    break;
+                case 2:
+                    //list of existing courses
+                    Console.WriteLine("-------------All Available Courses in Institute-------------------");
+                    this.showAllCoursesScreen();
+                    Console.WriteLine("Action Completed you may Exit....!");
+                    break;
+                case 3:
+                    //updates in Course structure
+                    aE.updatecourseDetails();
+                    Console.WriteLine("Action Completed you may Exit....!");
+                    break;
+                case 4:
+                    //getting particular course details
+                    aE.Retrieve_Particular_Course();
+                    Console.WriteLine("Action Completed you may Exit....!");
+                    break;
+                case 5:
+                    //deletes particular student
+                    aE.DeleteStudentdetails();
+                    Console.WriteLine("Action Completed you may Exit....!");
+                    break;
+                case 6:
+                    //deletes existing course only that are not enrolled by any students
+                    aE.DeleteCoursedetails();
+                    Console.WriteLine("Action Completed you may Exit....!");
+                    break;
+                case 7:
+                    //modify existing student details
+                    aE.UpdateStudentdetails();
+                    Console.WriteLine("Action Completed you may Exit....!");
+                    break;
+                case 8:
+                        
+                        this.showAllStudentsScreen();
+                        Console.WriteLine("Action Completed you may Exit....!");
+                        break;
+
+                    default:
+                    Console.WriteLine("Enter valid Option....!");
+                    break;
+
+              }
+                Console.WriteLine("Do you want to continue in Admin screen YES/NO:");
+                r = Console.ReadLine();
+          }
+                 while ((r == "YES") || (r == "yes"));
+        }
+        public override void showAllStudentsScreen()
+            {
+                AppEngine Ae = new AppEngine();
+                Ae.Show_all_registered_Students();
+            }
+            public override void showStudentRegistrationScreen()
+            {
+                AppEngine Ae = new AppEngine();
+                Ae.studentregistration();
+
+            }
+            public override void introduceNewCourseScreen()
+            {
+                AppEngine Ae = new AppEngine();
+                Ae.introducingnewCourse();
+            }
+            public override void showAllCoursesScreen()
+            {
+                AppEngine ae = new AppEngine();
+                ae.Available_Courses();
+            }
+
+        }
+}
+
+
+===================================================================Course==================================================================================================
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Case_Study
+{
+    class Course
+    {
+        public int CID { get; set; }
+        public string CName { get; set; }
+        public string Duration { get; set; }
+        public int Fees { get; set; }
+        public Course()
+        {
+
+        }
+
+
+
+        public Course(int CID, string CName, string Duration, int Fees)
+        {
+            this.CID = CID;
+            this.CName = CName;
+            this.Duration = Duration;
+            this.Fees = Fees;
+        }
+
+       
+    }
+}
+
+
+
+
+
+
+
+
