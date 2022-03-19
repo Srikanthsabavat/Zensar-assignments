@@ -1,0 +1,256 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace StudentProject.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+    }
+}
+
+==========================================================================StudentController=========================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using StudentProject.Models;
+
+namespace StudentProject.Controllers
+{
+    public class StudentController : Controller
+    {
+        StudentContext sc=new StudentContext();
+        // GET: Student
+        public ActionResult Index()
+        {
+            return RedirectToAction("GetStudentScaffolded");
+        }
+        public ActionResult GetStudentScaffolded()
+        {
+            List<StudentTable> st = sc.StudentTable.ToList();
+            return View(st);
+        }
+        [HttpGet]
+        public ActionResult Create()
+        {
+            
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(StudentTable st)
+        {
+            sc.StudentTable.Add(st);
+            sc.SaveChanges();
+            return RedirectToAction("GetStudentScaffolded");
+        }
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            StudentTable c = sc.StudentTable.Find(id);
+            return View(c);
+        }
+        [HttpPost]
+        public ActionResult Edit(StudentTable st)
+        {
+            StudentTable sta = sc.StudentTable.Find(st.StudentId);
+            sta.Name=st.Name;
+            sta.Branch=st.Branch;
+            sta.City=st.City;
+            sta.Id=st.Id;
+            sta.Percentage=st.Percentage;
+            sc.SaveChanges();
+            return RedirectToAction("GetStudentScaffolded");
+        }
+        public ActionResult Details(int id)
+        {
+            StudentTable c = sc.StudentTable.Find(id);
+            return View(c);
+        }
+        public ActionResult Delete(int id)
+        {
+            StudentTable c = sc.StudentTable.Find(id);
+            sc.StudentTable.Remove(c);
+            sc.SaveChanges();
+            return RedirectToAction("GetStudentScaffolded");
+        }
+        public ActionResult SearchBY(string searchBy,string search)
+        {
+            if(searchBy== "City")
+            {
+                return View(sc.StudentTable.Where(x=>x.City==search).ToList());
+            }
+            else if(searchBy=="Percentage")
+            {
+                return View(sc.StudentTable.Where(x => x.Percentage.ToString() == search).ToList());
+            }
+            else if(searchBy == "Branch")
+            {
+                return View(sc.StudentTable.Where(x => x.Branch == search).ToList());
+            }
+            else
+            {
+                //return View();
+               return View(sc.StudentTable.Where(x => x.Id.ToString()==search).ToList());
+            }
+            
+        }
+        public ActionResult searchbyPercentage(int start, int end)
+        {
+            //List<StudentTable> st=sc.StudentTable.Where(x=>x.Percentage >start && x.Percentage<end).ToList();
+            List<StudentTable> st=(from c in sc.StudentTable
+                                   where c.Percentage>=start && c.Percentage <= end
+                                   select c).ToList();
+            return View(st);
+        }
+    }
+}
+
+===============================================================================Migrations==============================================================================
+
+namespace StudentProject.Migrations
+{
+    using System.CodeDom.Compiler;
+    using System.Data.Entity.Migrations;
+    using System.Data.Entity.Migrations.Infrastructure;
+    using System.Resources;
+    
+    [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
+    public sealed partial class CreateStudentTable : IMigrationMetadata
+    {
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateStudentTable));
+        
+        string IMigrationMetadata.Id
+        {
+            get { return "202203140904309_CreateStudentTable"; }
+        }
+        
+        string IMigrationMetadata.Source
+        {
+            get { return null; }
+        }
+        
+        string IMigrationMetadata.Target
+        {
+            get { return Resources.GetString("Target"); }
+        }
+    }
+}
+
+
+namespace StudentProject.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class CreateStudentTable : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.StudentTables",
+                c => new
+                    {
+                        StudentId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        City = c.String(),
+                        Branch = c.String(),
+                        Percentage = c.Int(),
+                    })
+                .PrimaryKey(t => t.StudentId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropTable("dbo.StudentTables");
+        }
+    }
+}
+
+namespace StudentProject.Migrations
+{
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<StudentProject.Models.StudentContext>
+    {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = true;
+        }
+
+        protected override void Seed(StudentProject.Models.StudentContext context)
+        {
+            
+        }
+    }
+}    
+======================================================================Models===========================================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Data.Entity;
+
+namespace StudentProject.Models
+{
+    public class StudentContext : DbContext
+    {
+        public StudentContext() : base("StudentConnection")
+        {
+
+        }
+        public DbSet<StudentTable> StudentTable { get; set; }
+    }
+}
+
+============================================================================studentTable models====================================================================
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+
+namespace StudentProject.Models
+{
+    public class StudentTable
+    {
+        [Key]
+        public int StudentId { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string City { get; set; }
+        public string Branch { get; set; }
+        public int Percentage { get; set; }
+
+    }
+}
+=============================================================================================================================================================
