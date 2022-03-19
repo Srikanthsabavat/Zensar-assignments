@@ -1,0 +1,368 @@
+Controller
+-----------
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using MVCAssignment2.Models;
+
+namespace MVCAssignment2.Controllers
+{
+    public class MoviesController : Controller
+    {
+        MoviesdatabaseEntities1 mv = new MoviesdatabaseEntities1();
+        // GET: Movies
+        public ActionResult Index()
+        {
+            return RedirectToAction("GetMoviesScaffolded");
+        }
+        public ActionResult GetMoviesScaffolded()
+        {
+            List<Moviestable> moviesdb = mv.Moviestables.ToList();
+            return View(moviesdb);
+        }
+        // Crud Operations to create and post of create
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(Moviestable cat)
+        {
+            mv.Moviestables.Add(cat);
+            mv.SaveChanges();
+            return RedirectToAction("GetMoviesScaffolded");
+        }
+
+        // get details of a particular Movies ID
+        public ActionResult Details(int id)
+        {
+            Moviestable c = mv.Moviestables.Find(id);
+            return View(c);
+        }
+
+        // Edit records
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            Moviestable cat = mv.Moviestables.Find(id);
+            return View(cat);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Moviestable movie)
+        {
+            Moviestable mvs = mv.Moviestables.Find(movie.movie_id); //getting the before update data
+            mvs.movie_name = movie.movie_name; //setting the updated data to the cat object
+            mvs.movie_dor = movie.movie_dor;
+            mv.SaveChanges();
+            return RedirectToAction("GetMoviesScaffolded");
+        }
+
+        //Delete a record
+
+        public ActionResult Delete(int id)
+        {
+            Moviestable cat = mv.Moviestables.Find(id);
+            mv.Moviestables.Remove(cat);
+            mv.SaveChanges();
+            return RedirectToAction("GetMoviesScaffolded");
+
+        }
+        
+        public ActionResult GetMoviesByYear(string search)
+        {
+            List<Moviestable> movies = (from m in mv.Moviestables
+                                        where m.movie_dor.ToString().Contains( search) || search==null
+                                        select m).ToList();
+            return View(movies);
+        }
+       
+       
+    }
+}
+------------------------------------------------------------------------------------------------------------------
+
+================================Views=============================
+create
+------
+
+
+@model MVCAssignment2.Models.Moviestable
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Moviestable</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.movie_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.movie_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.movie_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.movie_name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.movie_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.movie_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.movie_dor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.movie_dor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.movie_dor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+------------------------------------------------------------------------------------------------------------------------
+delete
+-------
+
+
+@model MVCAssignment2.Models.Moviestable
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Moviestable</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.movie_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.movie_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.movie_dor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.movie_dor)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
+--------------------------------------------------------------------------------
+details
+-------
+
+@model MVCAssignment2.Models.Moviestable
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Moviestable</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Movie Id
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.movie_id)
+        </dd>
+        <dt>
+            Movie Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.movie_name)
+        </dd>
+
+        <dt>
+            Movie ReleaseDate
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.movie_dor)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.movie_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+------------------------------------------------------------------------
+edit
+----
+
+
+@model MVCAssignment2.Models.Moviestable
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Moviestable</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.movie_id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.movie_name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.movie_name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.movie_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.movie_dor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.movie_dor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.movie_dor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+------------------------------------------------------------------------------------------------------------------------
+moovies by year
+---------------
+
+
+@model IEnumerable<MVCAssignment2.Models.Moviestable>
+@{
+    ViewBag.Title = "GetMoviesByYear";
+}
+
+<h2>GetMoviesByYear</h2>
+
+<p>
+    <table class="table">
+        <tr>
+            <th>Movie Id</th>
+            <th>Movie Name</th>
+            <th>Movie ReleaseDate</th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.movie_id</td>
+                <td>@item.movie_name</td>
+                <td>@item.movie_dor</td>
+            </tr>
+        }
+    </table>
+</p>
+------------------------------------------------------------------
+
+movies by scoffoled
+-------------------
+
+
+@model IEnumerable<MVCAssignment2.Models.Moviestable>
+
+@{
+    ViewBag.Title = "GetMoviesScaffolded";
+}
+
+<h2>GetMoviesScaffolded</h2>
+<p>
+    @using (Html.BeginForm("GetMoviesByYear", "Movies", FormMethod.Get))
+    {
+        <text><b>Search Movies By Year</b></text> @Html.TextBox("search")<input type="submit" value="search" />
+    }
+</p>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>Movie Id</th>
+        <th>Movie Name</th>
+        <th>Movie ReleaseDate</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.movie_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.movie_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.movie_dor)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.movie_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.movie_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.movie_id })
+            </td>
+        </tr>
+    }
+
+</table>
