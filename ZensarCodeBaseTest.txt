@@ -1,6 +1,6 @@
-create database EmployeeManagement
+create database EmployeeManagementSystem
 
-use EmployeeManagement
+use EmployeeManagementSystem
 
 create table Employee
 (EmpNo int primary key,
@@ -12,17 +12,17 @@ EmpType varchar(1) check (EmpType in ('C','P')))
 create or alter procedure Add_New_Employee @ename varchar(50), @esal numeric(10,2), @etype varchar(1)
 as
  begin 
-  declare @eid int = (select max(EmpNo) from Code_Employee)
+  declare @eid int = (select max(EmpNo) from Employee)
   if(@eid is null)
   begin
     set @eid = 0;
     declare @empid int = @eid + 1;
-    insert into Code_Employee values(@empid, @ename, @esal, @etype)
+    insert into Employee values(@empid, @ename, @esal, @etype)
   end
   else
   begin
    declare @empid1 int = @eid + 1;
-   insert into Code_Employee values(@empid1, @ename, @esal, @etype)
+   insert into Employee values(@empid1, @ename, @esal, @etype)
   end
 end
 
@@ -39,7 +39,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace ZensarCodeTestNumber_1
+namespace EmployeeManagnment
 {
     class Program
     {
@@ -90,7 +90,7 @@ namespace ZensarCodeTestNumber_1
 
         static SqlConnection getConnection()
         {
-            con = new SqlConnection(@"data source=ADMNW63ZLPC0414;initial catalog=EmployeeManagement;integrated security=true");
+            con = new SqlConnection(@"data source=ADMNW63ZLPC0414;initial catalog=EmployeeManagementSystem;integrated security=true");
             con.Open();
             return con;
         }
